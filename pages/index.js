@@ -187,7 +187,7 @@ export default function Home() {
 
   return (
     <div style={{ padding: 20, maxWidth: 900, margin: "0 auto", fontFamily: "system-ui, sans-serif" }}>
-      <h1>P2P File Share — Next.js Frontend</h1>
+      <h1>P2P File Share</h1>
 
       <div style={{ marginTop: 12 }}>
         <button onClick={createRoom}>Create Room</button>
