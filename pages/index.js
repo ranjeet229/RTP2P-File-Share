@@ -60,7 +60,9 @@ export default function Home() {
   }, []);
 
   function addLog(msg) {
-    setLog((l) => [`${new Date().toLocaleTimeString()} - ${msg}`, ...l].slice(0, 200));
+    setLog((l) =>
+      [`${new Date().toLocaleTimeString()} - ${msg}`, ...l].slice(0, 200)
+    );
   }
 
   function createRoom() {
@@ -121,7 +123,9 @@ export default function Home() {
     addLog(`start sending ${file.name} (${file.size} bytes)`);
 
     // send metadata
-    peerRef.current.send(JSON.stringify({ type: "meta", filename: file.name, filesize: file.size }));
+    peerRef.current.send(
+      JSON.stringify({ type: "meta", filename: file.name, filesize: file.size })
+    );
 
     const CHUNK_SIZE = 16 * 1024;
     let offset = 0;
@@ -169,37 +173,77 @@ export default function Home() {
       return;
     }
 
+    // binary data chunk
     incoming.current.chunks.push(raw);
     incoming.current.receivedBytes += raw.byteLength || raw.length;
-    addLog(`received chunk ${incoming.current.receivedBytes}/${incoming.current.filesize}`);
+    addLog(
+      `received chunk ${incoming.current.receivedBytes}/${incoming.current.filesize}`
+    );
 
     if (incoming.current.receivedBytes >= incoming.current.filesize) {
       const blob = new Blob(incoming.current.chunks);
       const url = URL.createObjectURL(blob);
+
       if (downloadRef.current) {
         downloadRef.current.href = url;
-        downloadRef.current.download = incoming.current.filename;
+        downloadRef.current.download = incoming.current.filename; // real filename with extension
+        downloadRef.current.style.display = "inline"; // show the link
       }
-      addLog(`file assembled: ${incoming.current.filename}`);
-      incoming.current = { receiving: false, filename: null, filesize: 0, chunks: [], receivedBytes: 0 };
+
+      addLog(`file ready: ${incoming.current.filename}`);
+      // ⚠️ DO NOT reset incoming.current here, wait until after download clicked
     }
   }
 
   return (
-    <div style={{ padding: 20, maxWidth: 900, margin: "0 auto", fontFamily: "system-ui, sans-serif" }}>
+    <div
+      style={{
+        padding: 20,
+        maxWidth: 900,
+        margin: "0 auto",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
       <h1>P2P File Share</h1>
 
       <div style={{ marginTop: 12 }}>
         <button onClick={createRoom}>Create Room</button>
         <span style={{ marginLeft: 10 }}>or enter Room ID:</span>
-        <input value={roomId} onChange={(e) => setRoomId(e.target.value.toUpperCase())} style={{ marginLeft: 8 }} />
-        <button onClick={joinRoom} style={{ marginLeft: 8 }}>Join Room</button>
+        <input
+          value={roomId}
+          onChange={(e) => setRoomId(e.target.value.toUpperCase())}
+          style={{ marginLeft: 8 }}
+        />
+        <button onClick={joinRoom} style={{ marginLeft: 8 }}>
+          Join Room
+        </button>
       </div>
 
       <div style={{ marginTop: 12 }}>
         <input type="file" ref={fileRef} />
-        <button onClick={sendFile} style={{ marginLeft: 8 }}>Send File</button>
-        <a ref={downloadRef} style={{ marginLeft: 16 }}>Download (appears after receive)</a>
+        <button onClick={sendFile} style={{ marginLeft: 8 }}>
+          Send File
+        </button>
+        <a
+          ref={downloadRef}
+          style={{ marginLeft: 16, display: "none" }}
+          onClick={() => {
+            // cleanup after download
+            if (downloadRef.current?.href) {
+              URL.revokeObjectURL(downloadRef.current.href);
+            }
+            // now safe to reset
+            incoming.current = {
+              receiving: false,
+              filename: null,
+              filesize: 0,
+              chunks: [],
+              receivedBytes: 0,
+            };
+          }}
+        >
+          Download File
+        </a>
       </div>
 
       <div style={{ marginTop: 20 }}>
@@ -209,9 +253,18 @@ export default function Home() {
 
       <div style={{ marginTop: 20 }}>
         <h3>Logs</h3>
-        <div style={{ maxHeight: 300, overflow: "auto", background: "#f6f6f6", padding: 10 }}>
+        <div
+          style={{
+            maxHeight: 300,
+            overflow: "auto",
+            background: "#f6f6f6",
+            padding: 10,
+          }}
+        >
           {log.map((l, idx) => (
-            <div key={idx} style={{ fontSize: 13 }}>{l}</div>
+            <div key={idx} style={{ fontSize: 13 }}>
+              {l}
+            </div>
           ))}
         </div>
       </div>

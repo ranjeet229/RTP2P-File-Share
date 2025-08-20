@@ -1,27 +1,99 @@
-/* Reset some defaults */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Apply a base font */
 body {
-  font-family: system-ui, sans-serif;
-  background: #f9f9f9;
-  color: #222;
-  line-height: 1.6;
+  font-family: "Inter", system-ui, sans-serif;
+  background: #f3f4f6;
+  padding: 40px;
+  color: #1f2937;
 }
 
-/* Style buttons */
-button {
-  padding: 8px 14px;
-  background: #0070f3;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
+.app-container {
+  display: flex;
+  justify-content: center;
 }
+
+.card {
+  width: 600px;
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+/* Room controls */
+.room-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.room-controls input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
 button:hover {
-  background: #005bb5;
+  background: #1d4ed8;
+}
+
+/* File upload */
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Section styling */
+.section {
+  margin-top: 24px;
+}
+
+.section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Logs */
+.log-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  height: 150px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* Peers list */
+.peers-list {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.95rem;
+  color: #6b7280;
 }

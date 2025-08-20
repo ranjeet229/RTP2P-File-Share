@@ -12,5 +12,4 @@ const TransferSchema = new mongoose.Schema({
   status: { type: String, enum: ["started","completed","failed"], default: "started" }
 });
 
-// Avoid model overwrite in dev/hot reload
 export default mongoose.models.Transfer || mongoose.model("Transfer", TransferSchema);
