@@ -1,0 +1,27 @@
+/* Reset some defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply a base font */
+body {
+  font-family: system-ui, sans-serif;
+  background: #f9f9f9;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* Style buttons */
+button {
+  padding: 8px 14px;
+  background: #0070f3;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background: #005bb5;
+}
