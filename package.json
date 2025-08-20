@@ -1,9 +1,11 @@
 {
   "name": "rtp2p-file-share",
   "version": "1.0.0",
-  "main": "index.js",
+  "private":"true",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
